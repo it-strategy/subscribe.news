@@ -52,7 +52,10 @@ foreach($arResult["IBLOCKS"] as $arIBlock):
 		<?if(strlen($arItem["DATE_ACTIVE_FROM"])>0):?>
 			<font class="newsdata"><?echo $arItem["DATE_ACTIVE_FROM"]?></font><br>
 		<?endif;?>
-		<a href="<?echo $arItem["DETAIL_PAGE_URL"]?>"><b><?echo $arItem["NAME"]?></b></a><br>
+		<a href="<?echo $arItem["DETAIL_PAGE_URL"]?>"><b><?echo $arItem["NAME"]?></b></a><br><?
+		foreach ($arIBlock['PRICES'] as $priceCode => $priceType) {?>
+		<p><span class="price-title"><?=$priceType['TITLE'];?>:<span>&nbsp;<span class="price-value"><?=$arItem['PRICES'][$priceCode]['PRINT_VALUE'];?></span></p><?
+		}?>
 		<?echo $arItem["PREVIEW_TEXT"];?>
 		</font>
 	</td></tr>

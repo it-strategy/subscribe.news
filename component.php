@@ -21,6 +21,9 @@ $arParams["ID"] = intval($arParams["ID"]);
 if($arParams["ID"] <= 0)
 	$arParams["ID"] = "";
 
+if(!is_array($arParams["PRICE_CODE"]))
+	$arParams["PRICE_CODE"] = array();
+$arParams["PRICE_VAT_INCLUDE"] = $arParams["PRICE_VAT_INCLUDE"] !== "N";
 //We have to save current user and create new one
 //because of possible agent execution
 global $USER;
@@ -66,14 +69,19 @@ $arResult["SERVER_NAME"] = $arSite["SERVER_NAME"];
 $arResult["IBLOCKS"] = array();
 while($arIBlock = $rsIBlock->Fetch())
 {
+	$arIBlock["PRICES"] = CIBlockPriceTools::GetCatalogPrices($arIBlock['ID'], $arParams["PRICE_CODE"]);
 	$arResult["IBLOCKS"][$arIBlock["ID"]] = $arIBlock;
 
 	$arFilter['IBLOCK_ID'] = $arIBlock["ID"];
+	foreach($arIBlock["PRICES"] as $value) {
+		$arSelect[] = $value['SELECT'];
+	}
 	$rsNews = CIBlockElement::GetList($arOrder, $arFilter, false, false, $arSelect);
 	$arResult["IBLOCKS"][$arIBlock["ID"]]["ITEMS"] = array();
 	while($obNews = $rsNews->GetNextElement())
 	{
 		$arNews = $obNews->GetFields();
+		$arNews["PRICES"] = CIBlockPriceTools::GetItemPrices($arIBlock["ID"], $arIBlock["PRICES"], $arNews, $arParams['PRICE_VAT_INCLUDE']);
 
 		$arNews["PREVIEW_PICTURE"] = CFile::GetFileArray($arNews["PREVIEW_PICTURE"]);
 		if(strpos($arNews["DETAIL_PAGE_URL"], "http") !== 0)

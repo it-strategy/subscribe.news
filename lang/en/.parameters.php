@@ -8,4 +8,6 @@ $MESS ['CP_BSN_IBLOCK_TYPE'] = "Type of information block";
 $MESS ['CP_BSN_ID'] = "Information block code";
 $MESS ['CP_BSN_SORT_BY'] = "Field for the section sorting";
 $MESS ['CP_BSN_SORT_ORDER'] = "Direction for the section sorting";
+$MESS ['IBLOCK_PRICE_CODE'] = "Price type";
+$MESS ['IBLOCK_VAT_INCLUDE'] = "Include tax rate in price";
 ?>

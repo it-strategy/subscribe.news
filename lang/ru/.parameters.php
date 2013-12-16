@@ -8,4 +8,6 @@ $MESS ['CP_BSN_IBLOCK_TYPE'] = "Тип информационного блока
 $MESS ['CP_BSN_ID'] = "Код информационного блока";
 $MESS ['CP_BSN_SORT_BY'] = "Поле для сортировки новостей";
 $MESS ['CP_BSN_SORT_ORDER'] = "Направление сортировки новостей";
+$MESS ['IBLOCK_PRICE_CODE'] = "Тип цены";
+$MESS ['IBLOCK_VAT_INCLUDE'] = "Включать НДС в цену";
 ?>

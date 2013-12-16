@@ -37,6 +37,23 @@ $arSortFields = array(
 		"SORT" => GetMessage("CP_BSN_SORT"),
 	);
 
+$arProperty_N = array();
+if (0 < intval($arCurrentValues['ID'])) {
+	$rsProp = CIBlockProperty::GetList(array("sort"=>"asc", "name"=>"asc"), array("IBLOCK_ID"=>$arCurrentValues["ID"], "ACTIVE"=>"Y"));
+	while ($arr=$rsProp->Fetch()) {
+		if($arr["PROPERTY_TYPE"]=="N")
+			$arProperty_N[$arr["CODE"]] = "[".$arr["CODE"]."] ".$arr["NAME"];
+	}
+}
+$arPrice = array();
+if (CModule::IncludeModule("catalog")) {
+	$rsPrice = CCatalogGroup::GetList($v1 = "sort", $v2 = "asc");
+	while ($arr = $rsPrice->Fetch())
+		$arPrice[$arr["NAME"]] = "[".$arr["NAME"]."] ".$arr["NAME_LANG"];
+} else {
+	$arPrice = $arProperty_N;
+}
+
 $arComponentParameters = array(
 	"GROUPS" => array(
 	),
@@ -71,6 +88,19 @@ $arComponentParameters = array(
 			"TYPE" => "LIST",
 			"DEFAULT" => "DESC",
 			"VALUES" => $arSorts,
+		),
+		"PRICE_CODE" => array(
+			"PARENT" => "PRICES",
+			"NAME" => GetMessage("IBLOCK_PRICE_CODE"),
+			"TYPE" => "LIST",
+			"MULTIPLE" => "Y",
+			"VALUES" => $arPrice,
+		),
+		"PRICE_VAT_INCLUDE" => array(
+			"PARENT" => "PRICES",
+			"NAME" => GetMessage("IBLOCK_VAT_INCLUDE"),
+			"TYPE" => "CHECKBOX",
+			"DEFAULT" => "Y",
 		),
 	),
 );
